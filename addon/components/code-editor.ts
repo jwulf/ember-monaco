@@ -71,7 +71,7 @@ export default class CodeEditor extends Component {
         keyCommand: this._onKeyCommand.bind(this),
         onReady: this.onEditorReady.bind(this)
       },
-      url: "/ember-monaco/frame.html"
+      url: "/ember-monaco-magikcraft/frame.html"
     });
     this._conn.promise.then(frameApi => {
       const { code, theme, language, fontSize } = this;
