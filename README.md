@@ -1,4 +1,4 @@
-# ember-monaco
+# ember-monaco-magikcraft
 
 [Monaco editor](https://github.com/Microsoft/monaco-editor) for ember.js apps
 
@@ -8,7 +8,7 @@
 ## Installation
 
 ```
-ember install ember-monaco
+ember install ember-monaco-magikcraft
 ```
 
 ## Usage
@@ -45,7 +45,7 @@ export default class Application extends Controller {
 ### Installation
 
 - `git clone <repository-url>`
-- `cd ember-monaco`
+- `cd ember-monaco-magikcraft`
 - `yarn install`
 
 ### Linting

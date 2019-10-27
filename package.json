@@ -1,6 +1,6 @@
 {
   "name": "ember-monaco-magikcraft",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Monaco editor component for Ember.",
   "keywords": [
     "ember-addon"

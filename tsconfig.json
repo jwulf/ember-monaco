@@ -22,10 +22,10 @@
     "paths": {
       "dummy/tests/*": ["tests/*"],
       "dummy/*": ["tests/dummy/app/*", "app/*"],
-      "ember-monaco": ["addon"],
-      "ember-monaco/*": ["addon/*"],
-      "ember-monaco/test-support": ["addon-test-support"],
-      "ember-monaco/test-support/*": ["addon-test-support/*"],
+      "ember-monaco-magikcraft": ["addon"],
+      "ember-monaco-magikcraft/*": ["addon/*"],
+      "ember-monaco-magikcraft/test-support": ["addon-test-support"],
+      "ember-monaco-magikcraft/test-support/*": ["addon-test-support/*"],
       "*": ["types/*"]
     }
   },

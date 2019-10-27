@@ -1,1 +1,3 @@
-export { default } from 'ember-monaco/templates/components/code-editor';
+export {
+  default
+} from "ember-monaco-magikcraft/templates/components/code-editor";
