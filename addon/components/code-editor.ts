@@ -1,6 +1,6 @@
-import Component from '@ember/component';
-import Penpal, { IChildConnectionObject } from 'penpal';
-import * as mon from 'monaco-editor';
+import Component from "@ember/component";
+import Penpal, { IChildConnectionObject } from "penpal";
+import * as mon from "monaco-editor";
 
 export interface CodeEditorKeyCommand {
   cmd?: boolean;
@@ -13,15 +13,22 @@ export default class CodeEditor extends Component {
   public code?: string;
   public _lastCode?: string = this.code;
   public language?: string;
+  public fontSize?: number;
   public _conn!: IChildConnectionObject<any>;
-  public theme: 'vs-dark' | 'vs-light' = 'vs-dark'; // TODO: proper default value
+  public theme: "vs-dark" | "vs-light" = "vs-dark"; // TODO: proper default value
   public onChange?: (v: string) => any;
   public onKeyCommand?: (evt: CodeEditorKeyCommand) => any;
-  public onReady?: (editor: mon.editor.IStandaloneCodeEditor) => any;
+  public onReady?: ({
+    editor,
+    monaco
+  }: {
+    editor: mon.editor.IStandaloneCodeEditor;
+    monaco: any;
+  }) => any;
 
   public buildEditorOptions(): object {
-    const { code, language, theme } = this;
-    return { value: code, language, theme };
+    const { code, language, theme, fontSize } = this;
+    return { value: code, language, theme, fontSize };
   }
 
   public _onKeyCommand(evt: CodeEditorKeyCommand) {
@@ -40,22 +47,22 @@ export default class CodeEditor extends Component {
 
   public onEditorReady() {
     const iframe: any = this.element.querySelector<HTMLIFrameElement>(
-      '.frame-container > iframe'
-    )
-    const editor = (<any>iframe.contentWindow).editor
-
+      ".frame-container > iframe"
+    );
+    const editor = (<any>iframe.contentWindow).editor;
+    const monaco = (<any>iframe.contentWindow).monaco;
     if (this.onReady) {
-      this.onReady(editor)
+      this.onReady({ editor, monaco });
     }
   }
 
   public didInsertElement() {
     super.didInsertElement();
     const container = this.element.querySelector<HTMLDivElement>(
-      '.frame-container'
+      ".frame-container"
     );
     if (!container) {
-      throw new Error('No frame container found');
+      throw new Error("No frame container found");
     }
     this._conn = Penpal.connectToChild({
       appendTo: container,
@@ -64,14 +71,15 @@ export default class CodeEditor extends Component {
         keyCommand: this._onKeyCommand.bind(this),
         onReady: this.onEditorReady.bind(this)
       },
-      url: '/ember-monaco/frame.html'
+      url: "/ember-monaco/frame.html"
     });
     this._conn.promise.then(frameApi => {
-      const { code, theme, language } = this;
+      const { code, theme, language, fontSize } = this;
       frameApi.setupEditor({
         language,
         theme,
-        value: code
+        value: code,
+        fontSize
       });
     });
   }
@@ -99,4 +107,4 @@ export default class CodeEditor extends Component {
   }
 }
 
-CodeEditor.prototype.classNames = ['monaco-editor'];
+CodeEditor.prototype.classNames = ["monaco-editor"];

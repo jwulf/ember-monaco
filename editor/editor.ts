@@ -1,5 +1,5 @@
-import * as mon from 'monaco-editor';
-import conn from './conn';
+import * as mon from "monaco-editor";
+import conn from "./conn";
 let editor: undefined | mon.editor.IStandaloneCodeEditor;
 
 export function updateEditor({
@@ -7,13 +7,13 @@ export function updateEditor({
   language
 }: {
   value: string;
-  language: 'typescript' | 'javascript';
+  language: "typescript" | "javascript";
 }) {
-  require(['vs/editor/editor.main'], () => {
-    if (typeof monaco !== 'undefined' && typeof editor !== 'undefined') {
+  require(["vs/editor/editor.main"], () => {
+    if (typeof monaco !== "undefined" && typeof editor !== "undefined") {
       editor.setValue(value);
       const lang = editor.getModel();
-      if (!lang) throw new Error('Editor has no model');
+      if (!lang) throw new Error("Editor has no model");
       monaco.editor.setModelLanguage(lang, language);
     }
   });
@@ -29,10 +29,10 @@ function setupKeyBindings(
     function() {
       client.keyCommand({
         cmd: true,
-        keys: ['s']
+        keys: ["s"]
       });
     },
-    ''
+    ""
   );
   // save all
   editor.addCommand(
@@ -41,10 +41,10 @@ function setupKeyBindings(
       client.keyCommand({
         cmd: true,
         shift: true,
-        keys: ['s']
+        keys: ["s"]
       });
     },
-    ''
+    ""
   );
 }
 
@@ -69,19 +69,21 @@ function installResizeWatcher(
 export function setupEditor(cfg: {
   theme: string;
   value: string;
-  language: 'typescript' | 'javascript';
+  language: "typescript" | "javascript";
+  fontSize: number;
 }) {
-  require(['vs/editor/editor.main'], async () => {
-    if (typeof monaco !== 'undefined') {
-      const wrapper = window.document.getElementById('monaco-editor-wrapper');
+  require(["vs/editor/editor.main"], async () => {
+    if (typeof monaco !== "undefined") {
+      const wrapper = window.document.getElementById("monaco-editor-wrapper");
       if (!wrapper) {
-        throw new Error('No wrapper found');
+        throw new Error("No wrapper found");
       }
-      const { language, theme, value } = cfg;
+      const { language, theme, value, fontSize } = cfg;
       const ed = (editor = window.editor = monaco.editor.create(wrapper, {
         language,
         theme,
-        value
+        value,
+        fontSize
       }));
       const client = await conn.promise;
       ed.onDidChangeModelContent(event => {
@@ -94,7 +96,7 @@ export function setupEditor(cfg: {
         });
       });
 
-      client.onReady()
+      client.onReady();
 
       setupKeyBindings(ed, client);
       installResizeWatcher(wrapper, editor.layout.bind(editor), 2000);
